@@ -1,3 +1,19 @@
-h1 {
+h1, h2 {
     color: palevioletred;
+    
+}
+
+.jumbotron {
+    background-color: paleturquoise;
+    margin-top: 2%;
+}
+
+.card {
+    background-color: paleturquoise;
+    margin-bottom: 2%; 
+}
+
+.container {
+    background-color: palevioletred;
+    margin-top: 2%;
 }
