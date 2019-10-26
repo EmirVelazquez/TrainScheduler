@@ -40,12 +40,14 @@ $(document).ready(function () {
             //This line will take frequency user input, remove spaces, and place inside a local variable
             var trainMinutes = $("#minutesInput").val().trim();
 
-            //This line will make a local "temporary" object for holding train data from user input
+            //This line will make a local "temporary" object for holding train data from user input, also adds a timestamp to database
             var newTrain = {
                 name: trainName,
                 destination: destinationName,
                 time: trainTime,
-                minutes: trainMinutes
+                minutes: trainMinutes,
+                nextArrival: trainTime,
+                dateAdded: firebase.database.ServerValue.TIMESTAMP
             };
 
             //This line will upload the new train data to the database
@@ -63,29 +65,37 @@ $(document).ready(function () {
 
     //This is a Firebase event for adding a train schedule to the database and a new row in the html when a user inputs new entry
     database.ref().on("child_added", function (childSnapshot) {
-        // console.log(childSnapshot.val());
-        //This line will store the data in a local variable
-
+        //These lines take the snapshot values and places them inside of a variable
         var trainName = childSnapshot.val().name;
         var destinationName = childSnapshot.val().destination;
         var trainTime = childSnapshot.val().time;
         var trainMinutes = childSnapshot.val().minutes;
-
-        //This line will create a new row with table date inside of the row, and put it inside a variable container
+        //This line utilizes moment.js library to take the military input time of the first train, subtracts 1 year and makes it into a Unix Time Stamp
+        var firsTrain = moment(trainTime, "hh:mm").subtract(1, "years");
+        //This line will calculate difference in time from now every minute and from firstTrain variable, result is in seconds
+        var differenceTime = moment().diff(moment(firsTrain), "minutes");
+        //This line finds the remainder after division of current seconds(differenceTime) and the frequency of train in minutes
+        var remainder = differenceTime % trainMinutes;
+        //This line subtracts the first logged train time by the remainder
+        var minutesAway = trainTime - remainder;
+        //This line will add the current time (moment()) to minutesAway and place inside nextArrival container
+        var nextArrival = moment().add(minutesAway, "minutes");
+        //This line formats the nextArrival container to hold information in the hh:mm format
+        nextArrival = moment(nextArrival).format("hh:mm");
+        //This line will create a variable newRow with table data inside of it
         var newRow = $("<tr>").append(
             $("<td>").text(trainName),
             $("<td>").text(destinationName),
             $("<td>").text(trainMinutes),
-            //Need to make function to calculate this
-            $("<td>").text("Next Arrival: TBD"),
-            //Need to make function to calculate this
-            $("<td>").text("Minutes Away: TBD")
+            $("<td>").text(nextArrival),
+            $("<td>").text(minutesAway)
         );
-
-        //This line will append the new row to the table and place it inside the body of the table
+        //This line will append the newRow to the table and place it inside the body of the table
         $("#trainTable > tbody").append(newRow);
+        //This function creates an error handler, and will console log the error code
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
     });
-
 
 
 
