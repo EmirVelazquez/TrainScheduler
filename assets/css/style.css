@@ -1,5 +1,66 @@
-h1, h2 {
-    color: palevioletred;
+/* This keeps the footer at the bottom*/
+* {
+    box-sizing: border-box;
+}
+
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    position: relative;
+}
+
+.backGround {
+    background-color: #5dc9e2;
+    min-height: 100vh;
+    position: relative;
+    padding-bottom: 3.0rem;
+    overflow: hidden;
+    display: block;
+}
+
+.container {
+    background-color: hsl(175, 88%, 28%);
+    /* min-height: 50vh; will cover the 100% of viewport */
+    overflow: hidden;
+    display: block;
+    position: relative;
+    padding-bottom: 3.0rem; /* Same height of footer*/
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-right: auto;
+    margin-left: auto;
+    border-radius: 1%;
+    border: 2px solid paleturquoise;
+
+}
+
+#footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 3.0rem;
+    background-color: paleturquoise;
+    border-top: 2px solid hsl(175, 88%, 28%);
+    text-align: center;
+}
+                                                                                
+#footerAnchor {
+    color: black;
+    font-size: 12px;
+}
+
+/* Custom CSS Changes */
+body {
+    font-family: "Roboto",  sans-serif;
+}
+
+h1, .card-title {
+    color: black;
     
 }
 
@@ -14,6 +75,11 @@ h1, h2 {
 }
 
 .container {
-    background-color: palevioletred;
     margin-top: 2%;
+}
+
+.tableHead {
+    background-color: hsl(175, 50%, 28%); 
+    color: #ffffff;
+    font-weight: normal;
 }
