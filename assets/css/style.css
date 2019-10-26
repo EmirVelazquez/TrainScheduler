@@ -83,3 +83,15 @@ h1, .card-title {
     color: #ffffff;
     font-weight: normal;
 }
+
+#trainTable {
+    border: 3px solid hsl(175, 50%, 28%);
+}
+
+tr {
+    border-top: 3px solid hsl(175, 50%, 28%);
+}
+
+td {
+    border-right: 3px solid hsl(175, 50%, 28%);
+}
